@@ -6,8 +6,6 @@
 
     {
 
-
-
         pattern = document.getElementById("input").value;
 
         //console.log("pattern:" + pattern);
@@ -104,13 +102,17 @@
     </div>
 
     <div style="text-align: center;">
-        <p><input type="text" id="input" onkeyup="getPossibleWordsFromString()" /><input type="button"
-                onclick="getPossibleWordsFromString()" value=">" /></p>
+        <p>
+            <input type="text" id="input" onkeyup="getPossibleWordsFromString()" />
+            <!-- <input type="button" onclick="getPossibleWordsFromString()" value=">" /> -->
+        </p>
     </div>
 
     <div style="text-align: center;">
-        <p><input type="text" id="input2" onkeyup="findAllWordsForCharacters()" /><input type="button"
-                onclick="findAllWordsForCharacters()" value="Match characters" /></p>
+        <p>
+            <input type="text" id="input2" onkeyup="findAllWordsForCharacters()" />
+            <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
+        </p>
     </div>
 
     <!-- <div style="text-align: center;"><p><input type="button" onkeyup="getPossibleWordsFromString()" value="Search word"/></p></div> -->
