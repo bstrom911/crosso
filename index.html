@@ -53,13 +53,13 @@
 
 
     function findAllWordsForCharacters() {
-        let givenChars = document.getElementById("input2").value;
+        let givenChars = document.getElementById("input2").value.toLowerCase();
         let maxWordLength = givenChars.length;
-        
+
         let exp = '\\b[' + givenChars + ']{' + maxWordLength + '}\\b';
         var filteredWords = regExpTest(words, maxWordLength, exp);
 
-        var exp2 = '^(?!.*(.).*\\1)[a-zåäö]+$';
+        var exp2 = '^(?!.*(.).*\\1)[a-zA-ZåäöÅÄÖ]+$';
         filteredWords = regExpTest(filteredWords, maxWordLength, exp2);
 
         filteredWords = filteredWords.toString().replaceAll(',', ', ').toUpperCase()
@@ -67,7 +67,66 @@
         document.getElementById("output").innerHTML = filteredWords;
     }
 
+    //every given char can exist any nr of times
+    function findMatchingWords() {
+        let allowedChars = document.getElementById("input3").value.toLowerCase();
+        // Convert allowedChars to a Set for quick lookups
+        const allowedSet = new Set(allowedChars);
 
+        console.log("allowedChars", allowedChars)
+        console.log("woird", allowedSet)
+
+        // Function to check if a word can be constructed with allowed characters
+        function canConstructWord(word) {
+            for (let char of word) {
+                if (!allowedSet.has(char)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Filter the list of words to find those that can be constructed
+        let filteredWords = words.filter(canConstructWord);
+
+        document.getElementById("output").innerHTML = filteredWords.toString().replaceAll(',', ', ').toUpperCase();
+    }
+
+
+    function findMatchingWords2() {
+        // Step 1: Create a frequency map for the allowed characters
+
+        let minLength = 3;
+        let maxLength = 5;
+
+        let allowedChars = document.getElementById("input4").value.toLowerCase();
+        const charCount = {};
+        for (let char of allowedChars) {
+            charCount[char] = (charCount[char] || 0) + 1;
+        }
+
+        // Step 2: Function to check if a word can be constructed with allowed characters
+        function canConstructWord(word) {
+            const wordCharCount = {};
+
+            for (let char of word) {
+                wordCharCount[char] = (wordCharCount[char] || 0) + 1;
+
+                // Check if the character in the word exceeds allowed character count
+                if (wordCharCount[char] > (charCount[char] || 0)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Step 3: Filter the list of words to find those that can be constructed
+        let filteredWords = words.filter(canConstructWord);
+        let lenghtFiltered = filteredWords.filter(x => x.length >= minLength && x.length <= maxLength)
+        let sortedByLenght = lenghtFiltered.sort((a, b) => a.length - b.length);
+
+        document.getElementById("output").innerHTML = sortedByLenght.toString().replaceAll(',', ', ').toUpperCase();
+    }
 
 </script>
 
@@ -113,6 +172,20 @@
             <input type="text" id="input2" onkeyup="findAllWordsForCharacters()" />
             <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
         </p>
+    </div>
+
+    <div style="text-align: center;">
+    <p>
+        <input type="text" id="input3" onkeyup="findMatchingWords()" />
+        <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
+    </p>
+    </div>
+
+    <div style="text-align: center;">
+    <p>
+        <input type="text" id="input4" onkeyup="findMatchingWords2()" />
+        <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
+    </p>
     </div>
 
     <!-- <div style="text-align: center;"><p><input type="button" onkeyup="getPossibleWordsFromString()" value="Search word"/></p></div> -->
