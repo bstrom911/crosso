@@ -73,9 +73,6 @@
         // Convert allowedChars to a Set for quick lookups
         const allowedSet = new Set(allowedChars);
 
-        console.log("allowedChars", allowedChars)
-        console.log("woird", allowedSet)
-
         // Function to check if a word can be constructed with allowed characters
         function canConstructWord(word) {
             for (let char of word) {
@@ -93,15 +90,21 @@
     }
 
 
-    function findMatchingWords2() {
+    function getWordsFrom(word) {
+        let allowedChars = document.getElementById("input4").value.toLowerCase();
+
+        findMatchingWords2(allowedChars);
+    }
+
+    function findMatchingWords2(theWord) {
         // Step 1: Create a frequency map for the allowed characters
 
         let minLength = 3;
         let maxLength = 5;
 
-        let allowedChars = document.getElementById("input4").value.toLowerCase();
+        
         const charCount = {};
-        for (let char of allowedChars) {
+        for (let char of theWord) {
             charCount[char] = (charCount[char] || 0) + 1;
         }
 
@@ -126,6 +129,25 @@
         let sortedByLenght = lenghtFiltered.sort((a, b) => a.length - b.length);
 
         document.getElementById("output").innerHTML = sortedByLenght.toString().replaceAll(',', ', ').toUpperCase();
+    }
+
+    function getRandomFiveLetterWord() {
+        // Filter the list to get only 5-letter words
+        const fiveLetterWords = words.filter(word => word.length === 5);
+
+        console.log ("Nr of five letter words", fiveLetterWords.length);
+
+        // Check if there are any 5-letter words
+        if (fiveLetterWords.length === 0) {
+            return null; // or throw an error, or return a message
+        }
+
+        // Pick a random index from the filtered list
+        const randomIndex = Math.floor(Math.random() * fiveLetterWords.length);
+
+        findMatchingWords2(fiveLetterWords[randomIndex]);
+
+        document.getElementById("input5").value = fiveLetterWords[randomIndex].toUpperCase();
     }
 
 </script>
@@ -175,17 +197,24 @@
     </div>
 
     <div style="text-align: center;">
-    <p>
-        <input type="text" id="input3" onkeyup="findMatchingWords()" />
-        <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
-    </p>
+        <p>
+            <input type="text" id="input3" onkeyup="findMatchingWords()" />
+            <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
+        </p>
     </div>
 
     <div style="text-align: center;">
-    <p>
-        <input type="text" id="input4" onkeyup="findMatchingWords2()" />
-        <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
-    </p>
+        <p>
+            <input type="text" id="input4" onkeyup="getWordsFrom()" />
+            <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
+        </p>
+    </div>
+
+    <div style="text-align: center;">
+        <p>
+            <input type="button" id="input5" onClick="getRandomFiveLetterWord()" style="width:100px" value=""/>
+            <!-- <input type="button" onclick="findAllWordsForCharacters()" value="Match characters" /> -->
+        </p>
     </div>
 
     <!-- <div style="text-align: center;"><p><input type="button" onkeyup="getPossibleWordsFromString()" value="Search word"/></p></div> -->
