@@ -34,7 +34,7 @@
     function regExpTest(wordList, wordLength, exp) {
         let regexp = new RegExp(exp); //'[a-zA-Z]*y[a-zA-Z]a'
         var filteredWords = wordList.filter(x => x.length == wordLength);
-        console.log('Antal ord (' + wordLength + ' bokstäver): ' + filteredWords.length.toString());
+        //console.log('Antal ord (' + wordLength + ' bokstäver): ' + filteredWords.length.toString());
         filteredWords = filteredWords.filter(x => regexp.test(x) == true);
         if (filteredWords.length > 300) {
             return "Your search resulted in " + filteredWords.length.toString() + " words! Max limit is 300. Please try again!";
@@ -44,8 +44,8 @@
             return "No words found!";
         }
 
-        console.log("Filtering resulted in " + filteredWords.length.toString() + " words!");
-        console.log(filteredWords);
+        //console.log("Filtering resulted in " + filteredWords.length.toString() + " words!");
+        //console.log(filteredWords);
         return filteredWords;
 
     }
@@ -138,7 +138,7 @@
         // Filter the list to get only 5-letter words
         const fiveLetterWords = words.filter(word => word.length === 5);
 
-        console.log("Nr of five letter words", fiveLetterWords.length);
+        //console.log("Nr of five letter words", fiveLetterWords.length);
 
         // Check if there are any 5-letter words
         if (fiveLetterWords.length === 0) {
@@ -157,7 +157,7 @@
         // Filter the list to get only 5-letter words
         const fiveLetterWords = words.filter(word => word.length === 5);
 
-        console.log("Nr of five letter words", fiveLetterWords.length);
+        //console.log("Nr of five letter words", fiveLetterWords.length);
 
         // Check if there are any 5-letter words
         if (fiveLetterWords.length === 0) {
@@ -169,7 +169,7 @@
 
         let word = fiveLetterWords[randomIndex];
 
-        console.log("word", word);
+        //console.log("word", word);
 
         findMatchingWords2(word);
 
@@ -197,7 +197,7 @@
         obj.className = "my-div-on";
         this.guess.push(obj.innerHTML);
 
-        console.log("guess", this.guess);
+        //console.log("guess", this.guess);
 
         // if (this.guess.join('') === document.getElementById("input5").value){
         //     alert('Found word!')
@@ -206,12 +206,12 @@
 
     function handleGuess() {
         let guessWord = this.guess.join('').toLowerCase();
-        console.log("guessing", guessWord, words.find(x => x === guessWord));
+        //console.log("guessing", guessWord, words.find(x => x === guessWord));
 
         if (words.find(x => x === guessWord) !== undefined) {
             //alert('Found word ' + guessWord + '!');
             let ordIndex = words.findIndex(x => x === guessWord);
-            console.log("guess", ordIndex);
+            //console.log("guess", ordIndex);
             words[ordIndex] = '!' + guessWord;
 
             repaint();
@@ -254,7 +254,7 @@
             word = word.toString().replaceAll(',', '').toUpperCase();
             let output = "";
             let theWord = word.split('');
-            console.log("theword", theWord);
+            //console.log("theword", theWord);
 
             theWord.forEach(lett => {
                 if (lett.toString() !== '!') {
@@ -269,7 +269,7 @@
             result = result + "<div style='display: flex; align-items: center; justify-items: center; text-align:center'>" + output + "</div>";
 
         });
-        console.log("result:", result);
+        //console.log("result:", result);
         document.getElementById("output").innerHTML = result;
     }
 
@@ -364,14 +364,14 @@
 
 <body style="text-align: center; width: 100%" onLoad="restart();">
     <div style="text-align: center; margin-bottom:50px">
-        <p><img width="400px" src="crosso.png" onClick="restart()"></p>
+        <p><img width="500px" src="crosso.png" onClick="restart()"></p>
     </div>
 
     <!-- <div style="text-align: center;"><p><input type="button" onkeyup="getPossibleWordsFromString()" value="Search word"/></p></div> -->
 
     <div style="min-height: 500px; text-align: center; align-items: center; justify-items: center;">
         <p>
-        <div id="output" style="text-align: center; align-items: center;"></div>
+        <div id="output" style="text-align: center; align-items: center; justify-items: center;"></div>
         </p>
     </div>
 
