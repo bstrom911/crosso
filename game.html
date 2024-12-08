@@ -2,99 +2,99 @@
 
 <script>
 
-    function getPossibleWordsFromString() //pattern: string[]
+    // function getPossibleWordsFromString() //pattern: string[]
 
-    {
+    // {
 
-        pattern = document.getElementById("input").value.toLowerCase();
+    //     pattern = document.getElementById("input").value.toLowerCase();
 
-        //console.log("pattern:" + pattern);
+    //     //console.log("pattern:" + pattern);
 
-        var arrPattern = pattern.split('');
-        var length = pattern.length;
-        var exp = "";
-        arrPattern.forEach(element => {
-            if (element == ' ') {
-                exp = exp + '[a-zA-ZåäöÅÄÖ]';
-            } else {
-                exp = exp + element;
-            }
-        });
+    //     var arrPattern = pattern.split('');
+    //     var length = pattern.length;
+    //     var exp = "";
+    //     arrPattern.forEach(element => {
+    //         if (element == ' ') {
+    //             exp = exp + '[a-zA-ZåäöÅÄÖ]';
+    //         } else {
+    //             exp = exp + element;
+    //         }
+    //     });
 
-        //console.log('exp:' + exp.toString());
-        var filteredWords = regExpTest(words, length, exp);
-        filteredWords = filteredWords.toString().replaceAll(',', ', ').toUpperCase();
-        //console.log(filteredWords);
-        document.getElementById("output").innerHTML = filteredWords;
-        //alert(filteredWords);
-    }
-
-
-
-    function regExpTest(wordList, wordLength, exp) {
-        let regexp = new RegExp(exp); //'[a-zA-Z]*y[a-zA-Z]a'
-        var filteredWords = wordList.filter(x => x.length == wordLength);
-        //console.log('Antal ord (' + wordLength + ' bokstäver): ' + filteredWords.length.toString());
-        filteredWords = filteredWords.filter(x => regexp.test(x) == true);
-        if (filteredWords.length > 300) {
-            return "Your search resulted in " + filteredWords.length.toString() + " words! Max limit is 300. Please try again!";
-        }
-
-        if (filteredWords.length == 0) {
-            return "No words found!";
-        }
-
-        //console.log("Filtering resulted in " + filteredWords.length.toString() + " words!");
-        //console.log(filteredWords);
-        return filteredWords;
-
-    }
+    //     //console.log('exp:' + exp.toString());
+    //     var filteredWords = regExpTest(words, length, exp);
+    //     filteredWords = filteredWords.toString().replaceAll(',', ', ').toUpperCase();
+    //     //console.log(filteredWords);
+    //     document.getElementById("output").innerHTML = filteredWords;
+    //     //alert(filteredWords);
+    // }
 
 
 
-    function findAllWordsForCharacters() {
-        let givenChars = document.getElementById("input2").value.toLowerCase();
-        let maxWordLength = givenChars.length;
+    // function regExpTest(wordList, wordLength, exp) {
+    //     let regexp = new RegExp(exp); //'[a-zA-Z]*y[a-zA-Z]a'
+    //     var filteredWords = wordList.filter(x => x.length == wordLength);
+    //     //console.log('Antal ord (' + wordLength + ' bokstäver): ' + filteredWords.length.toString());
+    //     filteredWords = filteredWords.filter(x => regexp.test(x) == true);
+    //     if (filteredWords.length > 300) {
+    //         return "Your search resulted in " + filteredWords.length.toString() + " words! Max limit is 300. Please try again!";
+    //     }
 
-        let exp = '\\b[' + givenChars + ']{' + maxWordLength + '}\\b';
-        var filteredWords = regExpTest(words, maxWordLength, exp);
+    //     if (filteredWords.length == 0) {
+    //         return "No words found!";
+    //     }
 
-        var exp2 = '^(?!.*(.).*\\1)[a-zA-ZåäöÅÄÖ]+$';
-        filteredWords = regExpTest(filteredWords, maxWordLength, exp2);
+    //     //console.log("Filtering resulted in " + filteredWords.length.toString() + " words!");
+    //     //console.log(filteredWords);
+    //     return filteredWords;
 
-        filteredWords = filteredWords.toString().replaceAll(',', ', ').toUpperCase()
-
-        document.getElementById("output").innerHTML = filteredWords;
-    }
-
-    //every given char can exist any nr of times
-    function findMatchingWords() {
-        let allowedChars = document.getElementById("input3").value.toLowerCase();
-        // Convert allowedChars to a Set for quick lookups
-        const allowedSet = new Set(allowedChars);
-
-        // Function to check if a word can be constructed with allowed characters
-        function canConstructWord(word) {
-            for (let char of word) {
-                if (!allowedSet.has(char)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // Filter the list of words to find those that can be constructed
-        let filteredWords = words.filter(canConstructWord);
-
-        document.getElementById("output").innerHTML = filteredWords.toString().replaceAll(',', ', ').toUpperCase();
-    }
+    // }
 
 
-    function getWordsFrom(word) {
-        let allowedChars = document.getElementById("input4").value.toLowerCase();
 
-        findMatchingWords2(allowedChars);
-    }
+    // function findAllWordsForCharacters() {
+    //     let givenChars = document.getElementById("input2").value.toLowerCase();
+    //     let maxWordLength = givenChars.length;
+
+    //     let exp = '\\b[' + givenChars + ']{' + maxWordLength + '}\\b';
+    //     var filteredWords = regExpTest(words, maxWordLength, exp);
+
+    //     var exp2 = '^(?!.*(.).*\\1)[a-zA-ZåäöÅÄÖ]+$';
+    //     filteredWords = regExpTest(filteredWords, maxWordLength, exp2);
+
+    //     filteredWords = filteredWords.toString().replaceAll(',', ', ').toUpperCase()
+
+    //     document.getElementById("output").innerHTML = filteredWords;
+    // }
+
+    // //every given char can exist any nr of times
+    // function findMatchingWords() {
+    //     let allowedChars = document.getElementById("input3").value.toLowerCase();
+    //     // Convert allowedChars to a Set for quick lookups
+    //     const allowedSet = new Set(allowedChars);
+
+    //     // Function to check if a word can be constructed with allowed characters
+    //     function canConstructWord(word) {
+    //         for (let char of word) {
+    //             if (!allowedSet.has(char)) {
+    //                 return false;
+    //             }
+    //         }
+    //         return true;
+    //     }
+
+    //     // Filter the list of words to find those that can be constructed
+    //     let filteredWords = words.filter(canConstructWord);
+
+    //     document.getElementById("output").innerHTML = filteredWords.toString().replaceAll(',', ', ').toUpperCase();
+    // }
+
+
+    // function getWordsFrom(word) {
+    //     let allowedChars = document.getElementById("input4").value.toLowerCase();
+
+    //     findMatchingWords2(allowedChars);
+    // }
 
     function findMatchingWords2(theWord) {
         // Step 1: Create a frequency map for the allowed characters
@@ -124,7 +124,7 @@
         }
 
         // Step 3: Filter the list of words to find those that can be constructed
-        let filteredWords = words.filter(canConstructWord);
+        let filteredWords = allWords.filter(canConstructWord);
         let lenghtFiltered = filteredWords.filter(x => x.length >= minLength && x.length <= maxLength)
         let sortedByLenght = lenghtFiltered.sort((a, b) => a.length - b.length);
         //sortedByLenght = sortedByLenght.toString().replaceAll(',', '').toUpperCase()
@@ -134,28 +134,28 @@
         //document.getElementById("output").innerHTML = sortedByLenght.toString().replaceAll(',', ', ').toUpperCase();
     }
 
-    function getRandomFiveLetterWord_old() {
-        // Filter the list to get only 5-letter words
-        const fiveLetterWords = words.filter(word => word.length === 5);
+    // function getRandomFiveLetterWord_old() {
+    //     // Filter the list to get only 5-letter words
+    //     const fiveLetterWords = words.filter(word => word.length === 5);
 
-        //console.log("Nr of five letter words", fiveLetterWords.length);
+    //     //console.log("Nr of five letter words", fiveLetterWords.length);
 
-        // Check if there are any 5-letter words
-        if (fiveLetterWords.length === 0) {
-            return null; // or throw an error, or return a message
-        }
+    //     // Check if there are any 5-letter words
+    //     if (fiveLetterWords.length === 0) {
+    //         return null; // or throw an error, or return a message
+    //     }
 
-        // Pick a random index from the filtered list
-        const randomIndex = Math.floor(Math.random() * fiveLetterWords.length);
+    //     // Pick a random index from the filtered list
+    //     const randomIndex = Math.floor(Math.random() * fiveLetterWords.length);
 
-        findMatchingWords2(fiveLetterWords[randomIndex]);
+    //     findMatchingWords2(fiveLetterWords[randomIndex]);
 
-        document.getElementById("input5").value = fiveLetterWords[randomIndex].toUpperCase();
-    }
+    //     document.getElementById("input5").value = fiveLetterWords[randomIndex].toUpperCase();
+    // }
 
     function getRandomFiveLetterWord() {
         // Filter the list to get only 5-letter words
-        const fiveLetterWords = words.filter(word => word.length === 5);
+        const fiveLetterWords = allWords.filter(word => word.length === 5);
 
         //console.log("Nr of five letter words", fiveLetterWords.length);
 
@@ -191,50 +191,83 @@
 
     var guess = [];
     var words = [];
+    var misses = 0;
 
     function handleClickBall(nr) {
         let obj = document.getElementById("ball" + nr);
         obj.className = "my-div-on";
         this.guess.push(obj.innerHTML);
-
-        //console.log("guess", this.guess);
-
-        // if (this.guess.join('') === document.getElementById("input5").value){
-        //     alert('Found word!')
-        // }
     }
 
     function handleGuess() {
         let guessWord = this.guess.join('').toLowerCase();
         //console.log("guessing", guessWord, words.find(x => x === guessWord));
 
-        if (words.find(x => x === guessWord) !== undefined) {
+        if (this.words.find(x => x === guessWord) !== undefined) {
             //alert('Found word ' + guessWord + '!');
-            let ordIndex = words.findIndex(x => x === guessWord);
+            let ordIndex = this.words.findIndex(x => x === guessWord);
             //console.log("guess", ordIndex);
-            words[ordIndex] = '!' + guessWord;
+            this.words[ordIndex] = '!' + guessWord;
 
             repaint();
             reset();
+            victory();
         } else {
             error();
-            //reset();
+            reset();
+            misses= misses +1;
+            var dots = '';
+            for(i=0; i<misses; i++) {
+                dots = dots + "<img src='red.jpg' width='15px'></img>"
+            }
+            document.getElementById("misses").innerHTML = dots;
         }
 
     }
 
     function error(){
         for (i = 0; i < 5; i++) {
-            document.getElementById("ball" + i).className = "my-div-red ";
+            document.getElementById("ball" + i).className = "my-div-red";
         }
         setTimeout(() => {reset()}, 1000);
+    }
+
+    function victory(){
+        let check = false;
+
+        this.words.forEach(x => {
+            if (x.substr(0,1) !== '!') {
+                check = true;
+                return;
+            }})
+            
+            if (check) {
+                console.log("victory", check);
+                return;
+            }
+
+        
+        flash("my-div-off");
+        setTimeout(() => {flash("my-div-on")}, 300);        
+        setTimeout(() => {flash("my-div-off")}, 600); 
+        setTimeout(() => {flash("my-div-on")}, 900);        
+        setTimeout(() => {flash("my-div-off")}, 1200); 
+        setTimeout(() => {flash("my-div-on")}, 1500);       
+        setTimeout(() => {restart()}, 1800);
+    }
+
+    function flash(className){
+        for (i = 0; i < 6; i++) {
+            document.getElementById("ball" + i).className = className;
+        }
     }
 
     function reset() {
         this.guess = [];
         for (i = 0; i < 5; i++) {
-            document.getElementById("ball" + i).className = "my-div-off ";
+            document.getElementById("ball" + i).className = "my-div-off";
         }
+        document.getElementById("ball5").className = "my-div-red ";
     }
 
     function restart() {
@@ -248,9 +281,6 @@
         let result = "";
 
         this.words.forEach(word => {
-            if (word.substr(0, 1) === '!') {
-
-            }
             word = word.toString().replaceAll(',', '').toUpperCase();
             let output = "";
             let theWord = word.split('');
@@ -384,6 +414,7 @@
         <div class="my-div-red" id="ball5" onClick="handleGuess()">!</div>
     </div>
 
+    <div id="misses" style="margin-top:20px; height:20px"></div>
 
 
 
@@ -403,7 +434,7 @@
 
 
 
-    var words = [
+    var allWords = [
         "-aktig",
         "-artad",
         "-bent",
