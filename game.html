@@ -191,12 +191,18 @@
 
     var guess = [];
     var words = [];
-    var misses = 0;
+    var faultyGuesses = [];
+    var wrongWords = 0;
+    var correctWords = 0;
+    var points = 0;
+    var misstakesPerWord = 0;
 
     function handleClickBall(nr) {
         let obj = document.getElementById("ball" + nr);
         obj.className = "my-div-on";
-        this.guess.push(obj.innerHTML);
+        guess.push(obj.innerHTML);
+        console.log ("guess:" + guess.toString());
+
     }
 
     function handleGuess() {
@@ -209,27 +215,60 @@
             //console.log("guess", ordIndex);
             this.words[ordIndex] = '!' + guessWord;
 
+            correctWords = correctWords +1;
+            
+
             repaint();
             reset();
             victory();
         } else {
+            faultyGuesses.push(guessWord);
             error();
             reset();
-            misses= misses +1;
+            wrongWords = wrongWords +1;
             var dots = '';
-            for(i=0; i<misses; i++) {
+            for(i=0; i<wrongWords; i++) {
                 dots = dots + "<img src='red.jpg' width='15px'></img>"
             }
-            document.getElementById("misses").innerHTML = dots;
+            document.getElementById("wrongWords").innerHTML = dots;
+
+            
         }
 
+        document.getElementById("correctWords").innerHTML = "<span>Correct words: " + correctWords + "</span>";
+
+        points = calcPoints(correctWords, wrongWords);
+        document.getElementById("points").innerHTML = "<span>KDR: " + points + " %</span>";
+
+        misstakesPerWord = calcMisstakesPerWord(correctWords, wrongWords);
+        document.getElementById("misstakesPerWord").innerHTML = "<span>Misstakes per word: " + misstakesPerWord + "</span>";
+
+        console.log ("Faulty guesses:" + faultyGuesses.toString());
+
+    }
+
+    function calcPoints(correct, wrong){
+        console.log ("calc", correct, wrong);
+        if (wrong > 0) {
+            console.log ("calcing", wrong)
+            return Math.round((correct / wrong) * 100) ;
+        }
+        return 0;
+    }
+
+    function calcMisstakesPerWord(correct, wrong){
+        console.log ("calc", correct, wrong);
+        if (correct > 0) {
+            console.log ("calcing", wrong)
+            return (wrong/correct).toFixed(1) ;
+        }
+        return 0;
     }
 
     function error(){
         for (i = 0; i < 5; i++) {
             document.getElementById("ball" + i).className = "my-div-red";
         }
-        setTimeout(() => {reset()}, 1000);
     }
 
     function victory(){
@@ -245,8 +284,7 @@
                 console.log("victory", check);
                 return;
             }
-
-        
+     
         flash("my-div-off");
         setTimeout(() => {flash("my-div-on")}, 300);        
         setTimeout(() => {flash("my-div-off")}, 600); 
@@ -264,6 +302,7 @@
 
     function reset() {
         this.guess = [];
+        this.faultyGuesses = [];
         for (i = 0; i < 5; i++) {
             document.getElementById("ball" + i).className = "my-div-off";
         }
@@ -414,7 +453,12 @@
         <div class="my-div-red" id="ball5" onClick="handleGuess()">!</div>
     </div>
 
-    <div id="misses" style="margin-top:20px; height:20px"></div>
+    <div id="wrongWords" style="margin-top:20px; height:20px"></div>
+    <div id="correctWords" style="margin-top:10px; height:20px"></div>
+    <div id="points" style="margin-top:10px; height:20px"></div>
+    <div id="misstakesPerWord" style="margin-top:10px; height:20px"></div>
+
+    
 
 
 
