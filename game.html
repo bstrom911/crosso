@@ -139,7 +139,7 @@
 
         this.words = wordObjects;
 
-        console.log ("Words:", this.words);
+        console.log("Words:", this.words);
 
         //document.getElementById("output").innerHTML = sortedByLenght.toString().replaceAll(',', ', ').toUpperCase();
     }
@@ -196,8 +196,12 @@
 
         //document.getElementById("input5").value = word;
     }
-// Help functions
-    function helpShowLetters(){
+    // Help functions
+    function helpShowLetters() {
+
+        if (usedShowLetters) {
+            return;
+        }
 
         let index = this.words.findIndex(x => x.done === false && x.help === "");
         if (index === -1) {
@@ -212,46 +216,69 @@
             this.words[index].help = word[0] + " " + word[2] + " " + word[4];
         }
 
+        usedShowLetters = true;
+        document.getElementById("helpShowLetters").className = "helpbutton-off";
+
         repaint();
     }
 
-    function helpWholeWord () {
+    function helpWholeWord() {
+        if (usedWholeWord) {
+            return;
+        }
+
         let index = this.words.findIndex(x => x.done === false && x.help === "");
         if (index === -1) {
             return;
         }
         let word = this.words[index].word;
         this.words[index].help = word;
+
+        usedWholeWord = true;
+        document.getElementById("helpWholeWord").className = "helpbutton-off";
+
         repaint();
     }
 
-    function helpLastLetterOfThreeWords(){
+    function helpLastLetterOfThreeWords() {
+        if (usedLastLetters) {
+            return;
+        }
+
         let index1 = this.words.findIndex(x => x.done === false && x.help === "");
         if (index1 === -1) {
             repaint();
             return;
         }
         let word1 = this.words[index1].word;
-        this.words[index1].help = word1[word1.length -1].padStart(word1.length," ");
+        this.words[index1].help = word1[word1.length - 1].padStart(word1.length, " ");
 
         let index2 = this.words.findIndex(x => x.done === false && x.help === "");
         if (index2 === -1) {
+
+            usedLastLetters = true;
+            document.getElementById("helpLastLetterOfThreeWords").className = "helpbutton-off";
             repaint();
             return;
         }
         word2 = this.words[index2].word;
-        this.words[index2].help = word2[word2.length -1].padStart(word2.length," ");
+        this.words[index2].help = word2[word2.length - 1].padStart(word2.length, " ");
 
         let index3 = this.words.findIndex(x => x.done === false && x.help === "");
         if (index3 === -1) {
+            usedLastLetters = true;
+            document.getElementById("helpLastLetterOfThreeWords").className = "helpbutton-off";
             repaint();
             return;
         }
         word3 = this.words[index3].word;
-        this.words[index3].help = word3[word3.length -1].padStart(word3.length," ");
+        this.words[index3].help = word3[word3.length - 1].padStart(word3.length, " ");
+
+        usedLastLetters = true;
+        document.getElementById("helpLastLetterOfThreeWords").className = "helpbutton-off";
 
         repaint();
-        
+
     }
 
     //###################
@@ -264,14 +291,14 @@
     var points = 0;
     var misstakesPerWord = 0;
     let usedShowLetters = false;
-    let UsedLastLetters = false;
+    let usedLastLetters = false;
     let usedWholeWord = false;
 
     function handleClickBall(nr) {
         let obj = document.getElementById("ball" + nr);
         obj.className = "my-div-on";
         guess.push(obj.innerHTML);
-        console.log ("guess:" + guess.toString());
+        console.log("guess:" + guess.toString());
 
     }
 
@@ -285,8 +312,8 @@
             //console.log("guess", ordIndex);
             this.words[ordIndex].done = true;
 
-            correctWords = correctWords +1;
-            
+            correctWords = correctWords + 1;
+
 
             repaint();
             reset();
@@ -295,14 +322,14 @@
             faultyGuesses.push(guessWord);
             error();
             reset();
-            wrongWords = wrongWords +1;
+            wrongWords = wrongWords + 1;
             var dots = '';
-            for(i=0; i<wrongWords; i++) {
+            for (i = 0; i < wrongWords; i++) {
                 dots = dots + "<img src='red.jpg' width='15px'></img>"
             }
             document.getElementById("wrongWords").innerHTML = dots;
 
-            
+
         }
 
         document.getElementById("correctWords").innerHTML = "<span>Correct words: " + correctWords + "</span>";
@@ -313,59 +340,60 @@
         misstakesPerWord = calcMisstakesPerWord(correctWords, wrongWords);
         document.getElementById("misstakesPerWord").innerHTML = "<span>Misstakes per word: " + misstakesPerWord + "</span>";
 
-        console.log ("Faulty guesses:" + faultyGuesses.toString());
-        console.log ("Words:", words);
+        console.log("Faulty guesses:" + faultyGuesses.toString());
+        console.log("Words:", words);
 
     }
 
-    function calcPoints(correct, wrong){
-        console.log ("calc", correct, wrong);
+    function calcPoints(correct, wrong) {
+        console.log("calc", correct, wrong);
         if (wrong > 0) {
-            console.log ("calcing", wrong)
-            return Math.round((correct / wrong) * 100) ;
+            console.log("calcing", wrong)
+            return Math.round((correct / wrong) * 100);
         }
         return 0;
     }
 
-    function calcMisstakesPerWord(correct, wrong){
-        console.log ("calc", correct, wrong);
+    function calcMisstakesPerWord(correct, wrong) {
+        console.log("calc", correct, wrong);
         if (correct > 0) {
-            console.log ("calcing", wrong)
-            return (wrong/correct).toFixed(1) ;
+            console.log("calcing", wrong)
+            return (wrong / correct).toFixed(1);
         }
         return 0;
     }
 
-    function error(){
+    function error() {
         for (i = 0; i < 5; i++) {
             document.getElementById("ball" + i).className = "my-div-red";
         }
     }
 
-    function victory(){
+    function victory() {
         let check = false;
 
         this.words.forEach(x => {
             if (x.done === false) {
                 check = true;
                 return;
-            }})
-            
-            if (check) {
-                console.log("victory", check);
-                return;
             }
-     
+        })
+
+        if (check) {
+            console.log("victory", check);
+            return;
+        }
+
         flash("my-div-off");
-        setTimeout(() => {flash("my-div-on")}, 300);        
-        setTimeout(() => {flash("my-div-off")}, 600); 
-        setTimeout(() => {flash("my-div-on")}, 900);        
-        setTimeout(() => {flash("my-div-off")}, 1200); 
-        setTimeout(() => {flash("my-div-on")}, 1500);       
-        setTimeout(() => {restart()}, 1800);
+        setTimeout(() => { flash("my-div-on") }, 300);
+        setTimeout(() => { flash("my-div-off") }, 600);
+        setTimeout(() => { flash("my-div-on") }, 900);
+        setTimeout(() => { flash("my-div-off") }, 1200);
+        setTimeout(() => { flash("my-div-on") }, 1500);
+        setTimeout(() => { restart() }, 1800);
     }
 
-    function flash(className){
+    function flash(className) {
         for (i = 0; i < 6; i++) {
             document.getElementById("ball" + i).className = className;
         }
@@ -398,18 +426,18 @@
             if (word.help !== "" && word.done === false) {
                 theWord = helpWord.split('');
             }
-            
+
             theWord.forEach(lett => {
-                    if (word.done === true || word.help !== "") {
-                        if (word.done === false && word.help !== "") {
-                            output = output + "<div class='helpletter'>" + lett + "</div>"
-                        } else {
-                            output = output + "<div class='letter'>" + lett + "</div>"
-                        }
-                        
+                if (word.done === true || word.help !== "") {
+                    if (word.done === false && word.help !== "") {
+                        output = output + "<div class='helpletter'>" + lett + "</div>"
                     } else {
-                        output = output + "<div class='letter'>&nbsp;</div>"
+                        output = output + "<div class='letter'>" + lett + "</div>"
                     }
+
+                } else {
+                    output = output + "<div class='letter'>&nbsp;</div>"
+                }
             });
             result = result + "<div style='display: flex; align-items: center; justify-items: center; text-align:center'>" + output + "</div>";
 
@@ -517,6 +545,36 @@
         background-color: #dddddd;
         margin: 1px;
     }
+
+    .helpbutton-on {
+        background-image: url('button_red_on.png');
+        background-size: cover;
+        /* This makes the image cover the entire div */
+        background-position: center;
+        /* This centers the image */
+        width: 45px;
+        height: 45px;
+        font-size: 15px;
+        align-content: center;
+        text-align: center;
+        color: white;
+        margin-top: 0px;
+    }
+
+    .helpbutton-off {
+        background-image: url('button_red_off.png');
+        background-size: cover;
+        /* This makes the image cover the entire div */
+        background-position: center;
+        /* This centers the image */
+        width: 45px;
+        height: 45px;
+        font-size: 15px;
+        align-content: center;
+        text-align: center;
+        color: white;
+        margin-top: 0px;
+    }
 </style>
 
 <body style="text-align: center; width: 100%" onLoad="restart();">
@@ -539,17 +597,19 @@
         <div class="my-div-off" id="ball3" onClick="handleClickBall(3)"></div>
         <div class="my-div-off" id="ball4" onClick="handleClickBall(4)"></div>
         <div class="my-div-red" id="ball5" onClick="handleGuess()">!</div>
+        <div style="margin-left:40px">
+            <div class="helpbutton-on" id="helpShowLetters" onClick="helpShowLetters()">?_?</div>
+            <div class="helpbutton-on" id="helpWholeWord" onClick="helpWholeWord()">???</div>
+            <div class="helpbutton-on" id="helpLastLetterOfThreeWords" onClick="helpLastLetterOfThreeWords()">3x?</div>
+        </div>
     </div>
 
     <div id="wrongWords" style="margin-top:20px; height:20px"></div>
     <div id="correctWords" style="margin-top:10px; height:20px"></div>
     <div id="points" style="margin-top:10px; height:20px"></div>
     <div id="misstakesPerWord" style="margin-top:10px; height:20px"></div>
-    <div id="help" style="margin-top:10px; height:20px">
-        <button onclick="helpShowLetters()">Letters</button>
-        <button onclick="helpWholeWord()">Word</button>
-        <button onclick="helpLastLetterOfThreeWords()">3 last</button>
-    </div>
+
+
 
 
 
