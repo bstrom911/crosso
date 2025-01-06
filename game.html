@@ -365,7 +365,7 @@
 
     function error() {
         for (i = 0; i < 5; i++) {
-            document.getElementById("ball" + i).className = "my-div-red";
+            document.getElementById("ball" + i).className = "button-red-on";
         }
     }
 
@@ -405,7 +405,7 @@
         for (i = 0; i < 5; i++) {
             document.getElementById("ball" + i).className = "my-div-off";
         }
-        document.getElementById("ball5").className = "my-div-red ";
+        document.getElementById("ball5").className = "button-red-on";
     }
 
     function restart() {
@@ -452,6 +452,14 @@
             const j = Math.floor(Math.random() * (i + 1));[array[i], array[j]] = [array[j], array[i]];
         }
         return array;
+    }
+
+    function setRedOff() {
+        document.getElementById("ball5").className = "button-red-off";
+    }
+
+    function setRedOn() {
+        document.getElementById("ball5").className = "button-red-on";
     }
 
 </script>
@@ -508,8 +516,22 @@
         color: white;
     }
 
-    .my-div-red {
+    .button-red-on {
         background-image: url('button_red_on.png');
+        background-size: cover;
+        /* This makes the image cover the entire div */
+        background-position: center;
+        /* This centers the image */
+        width: 150px;
+        height: 150px;
+        font-size: 80px;
+        align-content: center;
+        text-align: center;
+        color: white;
+    }
+
+    .button-red-off {
+        background-image: url('button_red_off.png');
         background-size: cover;
         /* This makes the image cover the entire div */
         background-position: center;
@@ -552,9 +574,9 @@
         /* This makes the image cover the entire div */
         background-position: center;
         /* This centers the image */
-        width: 45px;
-        height: 45px;
-        font-size: 15px;
+        width: 75px;
+        height: 75px;
+        font-size: 20px;
         align-content: center;
         text-align: center;
         color: white;
@@ -567,9 +589,9 @@
         /* This makes the image cover the entire div */
         background-position: center;
         /* This centers the image */
-        width: 45px;
-        height: 45px;
-        font-size: 15px;
+        width: 75px;
+        height: 75px;
+        font-size: 20px;
         align-content: center;
         text-align: center;
         color: white;
@@ -582,12 +604,24 @@
         <p><img width="500px" src="crosso.png" onClick="restart()"></p>
     </div>
 
+    
+
     <!-- <div style="text-align: center;"><p><input type="button" onkeyup="getPossibleWordsFromString()" value="Search word"/></p></div> -->
 
     <div style="min-height: 500px; text-align: center; align-items: center; justify-items: center;">
+        <div style="display: flex; align-items: center;" >
+            <div class="helpbutton-on" id="helpShowLetters" onClick="helpShowLetters()">?_?</div>
+            <div class="helpbutton-on" id="helpWholeWord" onClick="helpWholeWord()">???</div>
+            <div class="helpbutton-on" id="helpLastLetterOfThreeWords" onClick="helpLastLetterOfThreeWords()">3x?</div>
+        </div>
         <p>
-        <div id="output" style="text-align: center; align-items: center; justify-items: center;"></div>
+            <div id="output" style="text-align: center; align-items: center; justify-items: center;"></div>
         </p>
+        
+    </div>
+
+    <div style="display: flex; text-align: center; align-items: center; justify-items: center;">
+        
     </div>
 
     <div style="display: flex; align-items: center;">
@@ -596,12 +630,8 @@
         <div class="my-div-off" id="ball2" onClick="handleClickBall(2)"></div>
         <div class="my-div-off" id="ball3" onClick="handleClickBall(3)"></div>
         <div class="my-div-off" id="ball4" onClick="handleClickBall(4)"></div>
-        <div class="my-div-red" id="ball5" onClick="handleGuess()">!</div>
-        <div style="margin-left:40px">
-            <div class="helpbutton-on" id="helpShowLetters" onClick="helpShowLetters()">?_?</div>
-            <div class="helpbutton-on" id="helpWholeWord" onClick="helpWholeWord()">???</div>
-            <div class="helpbutton-on" id="helpLastLetterOfThreeWords" onClick="helpLastLetterOfThreeWords()">3x?</div>
-        </div>
+        <div class="button-red-on" id="ball5" onClick="handleGuess()" onmousedown="setRedOff()" onmouseup="setRedOn()">!</div>
+
     </div>
 
     <div id="wrongWords" style="margin-top:20px; height:20px"></div>
