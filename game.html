@@ -139,7 +139,7 @@
 
         this.words = wordObjects;
 
-        console.log("Words:", this.words);
+        //console.log("Words:", this.words);
 
         //document.getElementById("output").innerHTML = sortedByLenght.toString().replaceAll(',', ', ').toUpperCase();
     }
@@ -240,6 +240,48 @@
         repaint();
     }
 
+
+    function helpFirstLetterOfThreeWords() {
+        if (usedFirstLetters) {
+            return;
+        }
+
+        let index1 = this.words.findIndex(x => x.done === false && x.help === "");
+        if (index1 === -1) {
+            repaint();
+            return;
+        }
+        let word1 = this.words[index1].word;
+        this.words[index1].help = word1[0].padEnd(word1.length, " ");
+
+        let index2 = this.words.findIndex(x => x.done === false && x.help === "");
+        if (index2 === -1) {
+
+            usedFirstLetters = true;
+            document.getElementById("helpFirstLetterOfThreeWords").className = "helpbutton-off";
+            repaint();
+            return;
+        }
+        word2 = this.words[index2].word;
+        this.words[index2].help = word2[0].padEnd(word2.length, " ");
+
+        let index3 = this.words.findIndex(x => x.done === false && x.help === "");
+        if (index3 === -1) {
+            usedFirstLetters = true;
+            document.getElementById("helpFirstLetterOfThreeWords").className = "helpbutton-off";
+            repaint();
+            return;
+        }
+        word3 = this.words[index3].word;
+        this.words[index3].help = word3[0].padEnd(word3.length, " ");
+
+        usedFirstLetters = true;
+        document.getElementById("helpFirstLetterOfThreeWords").className = "helpbutton-off";
+
+        repaint();
+    }
+
+
     function helpLastLetterOfThreeWords() {
         if (usedLastLetters) {
             return;
@@ -293,13 +335,13 @@
     let usedShowLetters = false;
     let usedLastLetters = false;
     let usedWholeWord = false;
+    let usedFirstLetters = false;
 
     function handleClickBall(nr) {
         let obj = document.getElementById("ball" + nr);
         obj.className = "my-div-on";
         guess.push(obj.innerHTML);
-        console.log("guess:" + guess.toString());
-
+        //console.log("guess:" + guess.toString());
     }
 
     function handleGuess() {
@@ -313,8 +355,6 @@
             this.words[ordIndex].done = true;
 
             correctWords = correctWords + 1;
-
-
             repaint();
             reset();
             victory();
@@ -332,33 +372,29 @@
 
         }
 
-        document.getElementById("correctWords").innerHTML = "<span>Correct words: " + correctWords + "</span>";
+        //document.getElementById("correctWords").innerHTML = "<span>Correct words: " + correctWords + "</span>";
 
         points = calcPoints(correctWords, wrongWords);
-        document.getElementById("points").innerHTML = "<span>KDR: " + points + " %</span>";
+        document.getElementById("points").innerHTML = "<span>KDR: " + points + "</span>";
 
         misstakesPerWord = calcMisstakesPerWord(correctWords, wrongWords);
         document.getElementById("misstakesPerWord").innerHTML = "<span>Misstakes per word: " + misstakesPerWord + "</span>";
 
-        console.log("Faulty guesses:" + faultyGuesses.toString());
-        console.log("Words:", words);
+        //console.log("Faulty guesses:" + faultyGuesses.toString());
+        //console.log("Words:", words);
 
     }
 
     function calcPoints(correct, wrong) {
-        console.log("calc", correct, wrong);
         if (wrong > 0) {
-            console.log("calcing", wrong)
-            return Math.round((correct / wrong) * 100);
+            return (correct / wrong).toFixed(2);
         }
-        return 0;
+        return correct;
     }
 
-    function calcMisstakesPerWord(correct, wrong) {
-        console.log("calc", correct, wrong);
+    function calcMisstakesPerWord(correct, wrong) {        
         if (correct > 0) {
-            console.log("calcing", wrong)
-            return (wrong / correct).toFixed(1);
+            return (wrong / correct).toFixed(2);
         }
         return 0;
     }
@@ -380,7 +416,7 @@
         })
 
         if (check) {
-            console.log("victory", check);
+            //console.log("victory", check);
             return;
         }
 
@@ -612,7 +648,8 @@
         <div style="display: flex; align-items: center;" >
             <div class="helpbutton-on" id="helpShowLetters" style="margin: 20px" onClick="helpShowLetters()">?_?</div>
             <div class="helpbutton-on" id="helpWholeWord" style="margin: 20px" onClick="helpWholeWord()">???</div>
-            <div class="helpbutton-on" id="helpLastLetterOfThreeWords" style="margin: 20px" onClick="helpLastLetterOfThreeWords()">3x?</div>
+            <div class="helpbutton-on" id="helpLastLetterOfThreeWords" style="margin: 20px" onClick="helpLastLetterOfThreeWords()">..?</div>
+            <div class="helpbutton-on" id="helpFirstLetterOfThreeWords" style="margin: 20px" onClick="helpFirstLetterOfThreeWords()">?..</div>
         </div>
         <p>
             <div id="output" style="text-align: center; align-items: center; justify-items: center;"></div>
